@@ -10,9 +10,9 @@ def blink(pin):
 	GPIO.output(pin, GPIO.LOW)
 	time.sleep(0.5)
 
-pin = 12
+pin = 18 
 
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 
 GPIO.setup(pin, GPIO.OUT)
 
