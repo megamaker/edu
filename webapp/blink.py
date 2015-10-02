@@ -2,7 +2,7 @@
 #encoding=utf-8
 
 from bottle import run, get, post, request
-import web_LED
+import LED
 
 meta = '<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=yes">'
 
@@ -23,11 +23,9 @@ def do_blink():
 	onValue = request.forms.get('on')
 	offValue = request.forms.get('off')
 	if onValue and not offValue:
-		print 'LED ON'
-		web_LED.led_on(18)
+		LED.led_on(18)
 	elif not onValue and offValue:
-		print 'LED OFF'
-		web_LED.led_off(18)
+		LED.led_off(18)
 
 	return html
 
