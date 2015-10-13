@@ -29,4 +29,4 @@ def do_blink():
 
 	return html
 
-run(host='192.168.0.22', port=8080, debug=True)
+run(host='192.168.18.101', port=8080, debug=True)
