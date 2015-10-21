@@ -3,9 +3,7 @@
 
 from bottle import run, get, post, request
 
-
 meta = '<meta name="viewport" content="width=device-width,initial-scale=2.0,user-scalable=no">'
-
 form = '''
 <form action="/motor" method="post">
 <table>
@@ -49,8 +47,20 @@ def blink():
 def do_blink():
 	direction = request.forms.get('direction')
 	speed = request.forms.get('speed')
-	if direction: print direction
-	if speed: print speed
+	path = '/home/pi/dev/src/webapp'
+	if direction:
+		print direction
+		f = open('%s/direct.dat' % path, 'w')
+		f.write(direction)
+		f.close()
+	if speed:
+		print speed
+		f = open('%s/speed.dat' % path, 'w')
+		f.write(speed)
+		f.close()
+	f = open('%s/status.dat' % path, 'w')
+	f.write('1')
+	f.close()
 
 	return html
 
