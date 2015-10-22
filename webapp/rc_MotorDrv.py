@@ -8,27 +8,37 @@ body = '''
 <form action="/motor" method="post">
 <table>
 	<tr>
+		<td></td>
 		<td>
 			<button type="submit" name="direction" value="F">F</button>
 		</td>
-		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td></td>
+		<td></td>
 		<td>
 			<button type="submit" name="speed" value="3">3</button>
 		</td>
 	<tr>
 	<tr>
 		<td>
+			<button type="submit" name="direction" value="L">L</button>
+		</td>
+		<td>
 			<button type="submit" name="direction" value="S">S</button>
 		</td>
-		<td></td>
+		<td>
+			<button type="submit" name="direction" value="R">R</button>
+		</td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td>
 			<button type="submit" name="speed" value="2">2</button>
 		</td>
 	</tr>
 	<tr>
+		<td></td>
 		<td>
 			<button type="submit" name="direction" value="B">B</button>
 		</td>
+		<td></td>
 		<td></td>
 		<td>
 			<button type="submit" name="speed" value="1">1</button>
@@ -64,4 +74,4 @@ def do_dcmotor():
 
 	return html
 
-run(host='192.168.18.101', port=8080, debug=True)
+run(host='192.168.10.1', port=8080, debug=True)
