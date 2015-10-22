@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #encoding=utf-8
 
-import RPi.GIO as GPIO
+import RPi.GPIO as GPIO
 import time
 
 GPIO.setmode(GPIO.BCM)
@@ -16,10 +16,11 @@ pwm.start(0)
 
 def update(angle):
 	duty = float(angle) / 10.0 + 2.5
+	print 'angle %d, duty %f' % (angle, duty)
 	pwm.ChangeDutyCycle(duty)
 
 while True:
-	angle = int(raw_input('angle : '))
+	angle = float(raw_input('angle : '))
 	if angle == -1:
 		break
 	update(angle)
