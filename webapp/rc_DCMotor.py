@@ -4,8 +4,8 @@
 from bottle import run, get, post, request
 
 meta = '<meta name="viewport" content="width=device-width,initial-scale=2.0,user-scalable=no">'
-form = '''
-<form action="/motor" method="post">
+body = '''
+<form action="/dcmotor" method="post">
 <table>
 	<tr>
 		<td>
@@ -37,14 +37,14 @@ form = '''
 </table>
 </form>
 '''
-html = '<head>%s</head>%s' % (meta, form)
+html = '<head>%s</head><body>%s</body>' % (meta, body)
 
 @get('/motor')
-def blink():
+def dcmotor():
 	return html
 
 @post('/motor')
-def do_blink():
+def do_dcmotor():
 	direction = request.forms.get('direction')
 	speed = request.forms.get('speed')
 	path = '/home/pi/dev/src/webapp'
