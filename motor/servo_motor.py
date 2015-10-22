@@ -19,6 +19,7 @@ def update(angle):
 	print 'angle %d, duty %f' % (angle, duty)
 	pwm.ChangeDutyCycle(duty)
 
+update(90)
 while True:
 	angle = float(raw_input('angle : '))
 	if angle == -1:
