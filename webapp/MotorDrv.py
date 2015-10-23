@@ -15,13 +15,14 @@ atexit.register(turnOffMotors)
 motor3 = mh.getMotor(3)
 motor4 = mh.getMotor(4)
 
+path = '/home/pi/dev/src/webapp'
 while True:
-	statusFile = open('status.dat', 'r')
+	statusFile = open('%s/status'%path, 'r')
 	status = int(statusFile.readline().strip())
 	statusFile.close()
 
 	if status:
-		speedFile = open('speed.dat', 'r')
+		speedFile = open('%s/speed'%path, 'r')
 		speed = speedFile.readline().strip()
 		speedFile.close()
 		if speed == '1':
@@ -34,7 +35,7 @@ while True:
 			motor3.setSpeed(255)
 			motor4.setSpeed(255)
 
-		directFile = open('direct.dat', 'r')
+		directFile = open('%s/direct'%path, 'r')
 		direct = directFile.readline().strip()
 		directFile.close()
 		if direct == 'F':
@@ -46,8 +47,14 @@ while True:
 		if direct == 'S':
 			motor3.run(Adafruit_MotorHAT.RELEASE)
 			motor4.run(Adafruit_MotorHAT.RELEASE)
+		if direct == 'L':
+			motor3.run(Adafruit_MotorHAT.FORWARD)
+			motor4.run(Adafruit_MotorHAT.BACKWARD)
+		if direct == 'R':
+			motor3.run(Adafruit_MotorHAT.BACKWARD)
+			motor4.run(Adafruit_MotorHAT.FORWARD)
 
-		statusFile = open('status.dat', 'w')
+		statusFile = open('%s/status'%path, 'w')
 		statusFile.write('0')
 		statusFile.close()
 

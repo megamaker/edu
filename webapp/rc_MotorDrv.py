@@ -5,7 +5,7 @@ from bottle import run, get, post, request
 
 meta = '<meta name="viewport" content="width=device-width,initial-scale=2.0,user-scalable=no">'
 body = '''
-<form action="/motor" method="post">
+<form action="/rc" method="post">
 <table>
 	<tr>
 		<td></td>
@@ -49,26 +49,24 @@ body = '''
 '''
 html = '<head>%s</head><body>%s</body>' % (meta, body)
 
-@get('/motor')
+@get('/rc')
 def dcmotor():
 	return html
 
-@post('/motor')
+@post('/rc')
 def do_dcmotor():
 	direction = request.forms.get('direction')
 	speed = request.forms.get('speed')
 	path = '/home/pi/dev/src/webapp'
 	if direction:
-		print direction
-		f = open('%s/direct.dat' % path, 'w')
+		f = open('%s/direct'%path, 'w')
 		f.write(direction)
 		f.close()
 	if speed:
-		print speed
-		f = open('%s/speed.dat' % path, 'w')
+		f = open('%s/speed'%path, 'w')
 		f.write(speed)
 		f.close()
-	f = open('%s/status.dat' % path, 'w')
+	f = open('%s/status'%path, 'w')
 	f.write('1')
 	f.close()
 
