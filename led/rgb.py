@@ -4,31 +4,37 @@
 import RPi.GPIO as GPIO
 import time
 
-pin18 = 18
-pin16 = 16
-pin20 = 20
-pin21 = 21
+anode = 18
+blue = 23
+green = 24
+red = 25
 
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin18, GPIO.HIGH)
-GPIO.setup(pin16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(pin20, GPIO.IN)
-GPIO.setup(pin21, GPIO.IN)
+GPIO.setup(anode, GPIO.OUT)
+GPIO.setup(blue, GPIO.OUT)
+GPIO.setup(green, GPIO.OUT)
+GPIO.setup(red, GPIO.OUT)
+
+GPIO.output(anode, GPIO.HIGH)
+
+def emit(r, g, b):
+	GPIO.output(blue, GPIO.HIGH)
+	GPIO.output(green, GPIO.HIGH)
+	GPIO.output(red, GPIO.HIGH)
+	if r:
+		GPIO.output(red, GPIO.LOW)
+	if g:
+		GPIO.output(green, GPIO.LOW)
+	if b:
+		GPIO.output(blue, GPIO.LOW)
 
 while True:
-	if GPIO.input(16):
-		print 'input'
+	emit(1, 0, 0)
+	time.sleep(0.5)
+	emit(0, 1, 0)
+	time.sleep(0.5)
+	emit(0, 0, 1)
+	time.sleep(0.5)
 
-#RPWM = GPIO.PWM(pin16, 100)
-#RPWM.start(0)
-#GPWM = GPIO.PWM(pin20, 100)
-#GPWM.start(0)
-#BPWM = GPIO.PWM(pin21, 100)
-#BPWM.start(0)
-
-#for step in range(10):
-#	RPWM.ChangeDutyCycle(float(step * 10))
-#	time.sleep(0.3)
-
-#time.sleep(1)
-#GPIO.cleanup()
+GPIO.cleanup()
