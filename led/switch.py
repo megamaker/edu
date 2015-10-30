@@ -3,10 +3,10 @@
 
 import RPi.GPIO as GPIO
 
-pinSW = 12
-pinLED = 16
+pinSW = 18
+pinLED = 23
 
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(pinSW, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(pinLED, GPIO.OUT)
 
