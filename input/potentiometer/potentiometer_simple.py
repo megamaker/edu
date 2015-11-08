@@ -11,5 +11,9 @@ ledPin = 23
 GPIO.setup(ledPin, GPIO.OUT)
 GPIO.output(ledPin, GPIO.HIGH)
 
-while True:
-	pass
+try:
+	while True:
+		pass
+except KeyboardInterrupt:
+	GPIO.output(ledPin, GPIO.LOW)
+	GPIO.cleanup()
