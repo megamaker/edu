@@ -6,7 +6,7 @@ import time
 GPIO.setmode(GPIO.BCM)
 
 pirPin = 18
-ledPin = 21
+ledPin = 23
 GPIO.setup(pirPin, GPIO.IN)
 GPIO.setup(ledPin, GPIO.OUT)
 
