@@ -4,6 +4,7 @@
 # anode 3 digit 7 segment
 import RPi.GPIO as GPIO
 import time
+import re
 
 GPIO.setmode(GPIO.BCM)
 
@@ -21,6 +22,7 @@ dp = 21
 
 digits = [digit1, digit2, digit3]
 leds = [a, b, c, d, e, f, g, dp]
+
 for pin in digits + leds:
 	GPIO.setup(pin, GPIO.OUT)
 
@@ -36,42 +38,68 @@ def initLed(data):
 		if digit: GPIO.output(leds[idx], GPIO.LOW)
 		else: GPIO.output(leds[idx], GPIO.HIGH)
 
-def num2bin(num):
-	if num == 0: initLed('11111100')
-	elif num == 1: initLed('01100000')
-	elif num == 2: initLed('11011010')
-	elif num == 3: initLed('11110010')
-	elif num == 4: initLed('01100110')
-	elif num == 5: initLed('10110110')
-	elif num == 6: initLed('10111110')
-	elif num == 7: initLed('11100000')
-	elif num == 8: initLed('11111110')
-	elif num == 9: initLed('11110110')
+def num2bin(num, pointStatus=0):
+	ledNums = {0:'11111100', 1:'01100000', 2:'11011010', 3:'11110010', 4:'01100110', 5:'10110110', 6:'10111110', 7:'11100000', 8:'11111110', 9:'11110110'}
+	ledNum = ''
+	if num == 0: ledNum = ledNums[0]
+	elif num == 1: ledNum = ledNums[1]
+	elif num == 2: ledNum = ledNums[2]
+	elif num == 3: ledNum = ledNums[3]
+	elif num == 4: ledNum = ledNums[4]
+	elif num == 5: ledNum = ledNums[5]
+	elif num == 6: ledNum = ledNums[6]
+	elif num == 7: ledNum = ledNums[7]
+	elif num == 8: ledNum = ledNums[8]
+	elif num == 9: ledNum = ledNums[9]
+
+	if pointStatus:
+		ledNum = str(int(ledNum) + 1)
+
+	initLed(ledNum)
 
 def numDisplay(num):
-	if num < 10:
-		initDigit('001')
-		num2bin(num)
-	elif num < 100:
-		initDigit('010')
-		num2bin(int(str(num)[0]))
-		time.sleep(0.01)
-		initDigit('001')
-		num2bin(int(str(num)[1]))
-		time.sleep(0.01)
-	elif num > 99 and num < 1000:
-		initDigit('100')
-		num2bin(int(str(num)[0]))
-		time.sleep(0.005)
-		initDigit('010')
-		num2bin(int(str(num)[1]))
-		time.sleep(0.005)
-		initDigit('001')
-		num2bin(int(str(num)[2]))
-		time.sleep(0.005)
+	if re.search(r'\.', str(num)):
+		if num < 10:
+			initDigit('010')
+			num2bin(int(str(num)[0]), 1)
+			time.sleep(0.01)
+			initDigit('001')
+			num2bin(int(str(num)[2]))
+			time.sleep(0.01)
+		elif num < 100:
+			initDigit('100')
+			num2bin(int(str(num)[0]))
+			time.sleep(0.005)
+			initDigit('010')
+			num2bin(int(str(num)[1]), 1)
+			time.sleep(0.005)
+			initDigit('001')
+			num2bin(int(str(num)[3]))
+			time.sleep(0.005)
+	else:
+		if num < 10:
+			initDigit('001')
+			num2bin(num)
+		elif num < 100:
+			initDigit('010')
+			num2bin(int(str(num)[0]))
+			time.sleep(0.01)
+			initDigit('001')
+			num2bin(int(str(num)[1]))
+			time.sleep(0.01)
+		elif num > 99 and num < 1000:
+			initDigit('100')
+			num2bin(int(str(num)[0]))
+			time.sleep(0.005)
+			initDigit('010')
+			num2bin(int(str(num)[1]))
+			time.sleep(0.005)
+			initDigit('001')
+			num2bin(int(str(num)[2]))
+			time.sleep(0.005)
 
 try:
 	while True:
-		numDisplay(273)
+		numDisplay(5.64)
 except KeyboardInterrupt:
 	GPIO.cleanup()
