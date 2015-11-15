@@ -1,29 +1,30 @@
 #!/usr/bin/env python
-#encoding=utf-8
 
-# anode 3 digit 7 segment
-import RPi.GPIO as GPIO
 import time
 import re
+import Adafruit_DHT
+import RPi.GPIO as GPIO
+
+sensor = 11 # DHT11 (RHT01)
+pinSensor = 18
+
+digit1 = 24 # 12
+digit2 = 26 # 9
+digit3 = 21 # 8
+pinA = 23 # 11
+pinB = 20 # 7
+pinC = 12 # 4
+pinD = 8 # 2
+pinE = 25 # 1
+pinF = 22 # 10
+pinG = 16 # 5
+pinDP = 7 # 3
 
 GPIO.setmode(GPIO.BCM)
-
-digit1 = 17
-digit2 = 27
-digit3 = 22
-a = 23
-b = 24
-c = 25
-d = 8
-e = 7
-f = 12
-g = 16
-dp = 20
-
 digits = [digit1, digit2, digit3]
-leds = [a, b, c, d, e, f, g, dp]
+segments = [pinA, pinB, pinC, pinD, pinE, pinF, pinG, pinDP]
 
-for pin in digits + leds:
+for pin in digits + segments:
 	GPIO.setup(pin, GPIO.OUT)
 
 def initDigit(data):
@@ -35,8 +36,8 @@ def initDigit(data):
 def initLed(data):
 	ledStatus = map(int, data)
 	for idx, digit in enumerate(ledStatus):
-		if digit: GPIO.output(leds[idx], GPIO.LOW)
-		else: GPIO.output(leds[idx], GPIO.HIGH)
+		if digit: GPIO.output(segments[idx], GPIO.LOW)
+		else: GPIO.output(segments[idx], GPIO.HIGH)
 
 def num2bin(num, pointStatus=0):
 	ledNums = {0:'11111100', 1:'01100000', 2:'11011010', 3:'11110010', 4:'01100110', 5:'10110110', 6:'10111110', 7:'11100000', 8:'11111110', 9:'11110110'}
@@ -99,7 +100,18 @@ def numDisplay(num):
 			time.sleep(0.005)
 
 try:
+	refresh = 0
+	temperature = 0
+	humidity = 0
 	while True:
-		numDisplay(5.64)
+		if refresh == 0:
+			numDisplay(0)
+			humidity, temperature = Adafruit_DHT.read_retry(sensor, pinSensor)
+			print 'Temp={0:0.1f} Humidity={1:0.1f}'.format(temperature, humidity)
+
+		numDisplay(int(humidity))
+
+		refresh += 1
+		if refresh == 300: refresh = 0
 except KeyboardInterrupt:
 	GPIO.cleanup()
