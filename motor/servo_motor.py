@@ -18,7 +18,7 @@ def update(angle):
 
 try:
 	while True:
-		for angle in [20, 45, 90, 150, 200, 150, 90, 40]:
+		for angle in [20, 45, 90, 150, 200, 150, 90, 45]:
 			update(angle)
 			time.sleep(1)
 except KeyboardInterrupt:
