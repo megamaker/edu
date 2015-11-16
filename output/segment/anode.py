@@ -8,6 +8,7 @@ import re
 
 GPIO.setmode(GPIO.BCM)
 
+# pin mapping
 digit1 = 17
 digit2 = 27
 digit3 = 22
@@ -19,7 +20,6 @@ e = 12
 f = 16
 g = 20
 dp = 21
-
 digits = [digit1, digit2, digit3]
 leds = [a, b, c, d, e, f, g, dp]
 
@@ -56,6 +56,11 @@ def num2bin(num, pointStatus=0):
 		ledNum = str(int(ledNum) + 1)
 
 	initLed(ledNum)
+
+def numDisplay_func(digit, num, sleep):
+	initDigit(digit)
+	num2bin(int(str(num)[idx]), 
+	
 
 def numDisplay(num):
 	if re.search(r'\.', str(num)):
