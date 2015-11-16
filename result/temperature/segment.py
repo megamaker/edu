@@ -19,11 +19,13 @@ pinE = 25 # 1
 pinF = 22 # 10
 pinG = 16 # 5
 pinDP = 7 # 3
+pinBtn = 27
 
 GPIO.setmode(GPIO.BCM)
 digits = [digit1, digit2, digit3]
 segments = [pinA, pinB, pinC, pinD, pinE, pinF, pinG, pinDP]
 
+GPIO.setup(pinBtn, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 for pin in digits + segments:
 	GPIO.setup(pin, GPIO.OUT)
 
@@ -109,9 +111,10 @@ try:
 			humidity, temperature = Adafruit_DHT.read_retry(sensor, pinSensor)
 			print 'Temp={0:0.1f} Humidity={1:0.1f}'.format(temperature, humidity)
 
-		numDisplay(int(humidity))
+		if GPIO.input(pinBtn): numDisplay(int(temperature))
+		else: numDisplay(int(humidity))
 
 		refresh += 1
-		if refresh == 300: refresh = 0
+		if refresh == 100: refresh = 0
 except KeyboardInterrupt:
 	GPIO.cleanup()
