@@ -19,12 +19,12 @@ buzzerPin = 18
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(buzzerPin, GPIO.OUT)
 
-cPin = 26
-dPin = 19
-ePin = 13
-fPin = 21
-gPin = 20
-aPin = 16
+cPin = 16
+dPin = 20
+ePin = 21
+fPin = 13
+gPin = 19
+aPin = 26
 GPIO.setup(cPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(dPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(ePin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
